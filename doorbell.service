@@ -1,0 +1,11 @@
+
+[Unit]
+Description=doorbell
+
+[Service]
+User=
+Group=
+ExecStart= 
+
+[Install]
+WantedBy=sysinit.target
