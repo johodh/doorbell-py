@@ -1,0 +1,33 @@
+type: vertical-stack
+cards:
+  - type: custom:button-card
+    entity: sensor.doorbell
+    color_type: label-card
+    name: Senast påringt
+    show_icon: false
+    show_state: true
+    color: rgb(44, 109, 214)
+    styles:
+      state:
+        - font-weight: bold
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:doorbell
+        tap_action:
+          action: call-service
+          service: mqtt.publish
+          service_data:
+            topic: /doorbell/testchime
+            payload: test
+      - type: custom:button-card
+        entity: switch.klocka
+        show_name: false
+        color_type: card
+        color: rgb(66, 134, 244)
+        icon: mdi:bell-ring-outline
+        state:
+          - value: 'off'
+            icon: mdi:bell-off-outline

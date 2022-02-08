@@ -1,0 +1,23 @@
+sensor:
+  - platform: mqtt
+    name: doorbell_connected
+    state_topic: "/$CONNECTED/doorbell"
+
+  - platform: mqtt
+    name: doorbell_chime
+    state_topic: "/doorbell/chime"
+  
+  - platform: mqtt
+    name: doorbell
+    state_topic: "/doorbell/sensor"
+
+switch:
+  - platform: mqtt
+    name: "Klocka"
+    state_topic: "/doorbell/chime"
+    command_topic: "/doorbell/chime"
+    qos: 1
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
