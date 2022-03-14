@@ -2,6 +2,7 @@ import paho.mqtt.client as mqtt
 import time
 import logging
 import doorbell
+import ts
 from datetime import datetime
 
 # Set ip address of MQTT broker
@@ -12,6 +13,8 @@ mqtt_password=""
 logname="/home/pi/debug.log"
 chime=doorbell.Chime()
 chime.set(True)
+justrang=False 
+tcount=0
 
 logging.basicConfig(filename=logname,
                             filemode='a',
@@ -87,10 +90,22 @@ client.loop_start()
 
 while True:
     if doorbell.sensor(chime.get()):
+        if justrang == False:
+            ts.toTelegram()
+            tcount=50
         timestamp=datetime.now().strftime('%Y-%m-%d, %H:%M')
         client.publish("/doorbell/sensor", timestamp, 1)
         logging.info("Doorbell button pushed")
         logging.info('chime: ' + str(chime))
+        justrang=True
+ 
+    if justrang:
+        tcount-=1
+
+    if tcount == 0:
+        justrang=False
+        tcount=50
+
     time.sleep(0.1)
 
 client.loop_stop()
